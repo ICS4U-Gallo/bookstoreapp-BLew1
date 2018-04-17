@@ -1,4 +1,4 @@
-name := """PlayTemplate"""
+name := """BookStoreApp"""
 organization := "ca.ycdsb"
 
 version := "1.0-SNAPSHOT"
