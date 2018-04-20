@@ -5,7 +5,10 @@ import play.data.FormFactory;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.books.create;
+import views.html.books.edit;
 import views.html.books.index;
+import views.html.books.show;
+
 import java.util.Set;
 import javax.inject.Inject;
 
@@ -37,21 +40,45 @@ public class BooksController extends Controller{
 
     // to edit book
     public Result edit(Integer id){
-        return TODO;
+
+        Book book = Book.findById(id);
+        if(book==null){
+            return notFound("Book Not Found");
+        }
+        Form<Book> bookForm = formFactory.form(Book.class).fill(book);
+        return ok(edit.render(bookForm));
     }
 
     // to update book
     public Result update(){
-        return TODO;
-    }
-
-    // to delete book
-    public Result destroy(Integer id){
-        return TODO;
+        Book book = formFactory.form(Book.class).bindFromRequest().get();
+        Book oldBook = Book.findById(book.id);
+        if(oldBook==null){
+            return notFound("Book Not Found");
+        }
+        oldBook.title = book.title;
+        oldBook.author = book.author;
+        oldBook.price = book.price;
+        return redirect(routes.BooksController.index());
     }
 
     // for book details
     public Result show(Integer id){
-        return TODO;
+        Book book = Book.findById(id);
+        if(book==null){
+            return notFound("Book Not Found");
+        }
+        return ok(show.render(book));
+    }
+
+    // to delete book
+    public Result destroy(Integer id){
+        Book book = Book.findById(id);
+        if(book==null){
+            return notFound("Book Not Found");
+        }
+        Book.remove(book);
+
+        return redirect(routes.BooksController.index());
     }
 }

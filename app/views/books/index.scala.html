@@ -11,11 +11,13 @@
 
 
         @for(book <- books){
-
-            <a href="#">@book.title</a>
-            <p>Price : @book.price</p>
-            <p>Author : @book.author</p>
+            <p></p>
+            <a href="@routes.BooksController.show(book.id)">@book.getTitle</a>
+            <p>Price : @book.getPrice</p>
+            <p>Author : @book.getAuthor</p>
 
         }
+
+        <a href="@routes.BooksController.create()">Create Book</a>
     </body>
 </html>
